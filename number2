@@ -1,0 +1,56 @@
+using System;
+
+class Program
+{
+    static int ReadNumber(int start, int end)
+    {
+        Console.Write($"Enter an integer between {start} and {end}: ");
+        string input = Console.ReadLine();
+
+        if (int.TryParse(input, out int number))
+        {
+            if (number >= start && number <= end)
+            {
+                return number;
+            }
+        }
+
+        throw new ArgumentOutOfRangeException("Invalid input. Please enter a valid number within the specified range.");
+    }
+
+    static void Main(string[] args)
+    {
+        int[] numbers = new int[10];
+        int start = 1;
+        int end = 100;
+
+        for (int i = 0; i < 10; i++)
+        {
+            try
+            {
+                int num = ReadNumber(start, end);
+
+                if (i > 0 && num <= numbers[i - 1])
+                {
+                    Console.WriteLine("Number must be greater than the previous one.");
+                    i--;
+                }
+                else
+                {
+                    numbers[i] = num;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                i--;
+            }
+        }
+
+        Console.WriteLine("You entered the following numbers:");
+        foreach (int num in numbers)
+        {
+            Console.Write(num + " ");
+        }
+    }
+}
